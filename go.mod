@@ -20,4 +20,4 @@ require (
 // see https://github.com/etcd-io/etcd/issues/11154 and https://github.com/etcd-io/etcd/issues/11931.
 replace google.golang.org/grpc => google.golang.org/grpc v1.26.0
 
-replace github.com/wsjcko/shopproduct => ../shopproduct
+replace github.com/wsjcko/shopproduct => github.com/wsjcko/shopproduct v1.0.0
