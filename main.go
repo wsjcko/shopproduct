@@ -18,9 +18,9 @@ import (
 )
 
 var (
-	serviceName = "go.micro.service.shop.product"
-	version     = "latest"
-	address     = "127.0.0.1:8085"
+	MICRO_SERVICE_NAME = "go.micro.service.shop.product"
+	MICRO_VERSION      = "latest"
+	MICRO_ADDRESS      = "127.0.0.1:8085"
 )
 
 func main() {
@@ -37,7 +37,7 @@ func main() {
 	})
 
 	//链路追踪
-	t, io, err := common.NewTracer(serviceName, "127.0.0.1:6831")
+	t, io, err := common.NewTracer(MICRO_SERVICE_NAME, "127.0.0.1:6831")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -56,10 +56,10 @@ func main() {
 
 	// 设置服务
 	srv := micro.NewService(
-		micro.Name(serviceName),
-		micro.Version(version),
+		micro.Name(MICRO_SERVICE_NAME),
+		micro.Version(MICRO_VERSION),
 		//这里设置地址和需要暴露的端口
-		micro.Address(address),
+		micro.Address(MICRO_ADDRESS),
 		//添加注册中心
 		micro.Registry(consulRegistry),
 		//绑定链路追踪 服务端绑定handle 客户端绑定client
@@ -69,13 +69,13 @@ func main() {
 	//初始化建表，多个表
 	// repository.NewProductRepository(db).InitTable()
 
-	productDataService := service.NewProductDataService(repository.NewProductRepository(db))
+	productService := service.NewProductService(repository.NewProductRepository(db))
 
 	// Initialise service
 	srv.Init()
 
 	// Register Handler
-	pb.RegisterProductHandler(srv.Server(), &handler.Product{ProductDataService: productDataService})
+	pb.RegisterShopProductHandler(srv.Server(), &handler.ShopProduct{ProductService: productService})
 
 	// Run service
 	if err := srv.Run(); err != nil {

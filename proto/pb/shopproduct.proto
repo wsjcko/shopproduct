@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package go.micro.service.shop.product;
 
-service Product {
+service ShopProduct {
 	rpc AddProduct(ProductInfo) returns (ResponseProduct){}
 	rpc FindProductByID(RequestID) returns (ProductInfo){}
 	rpc UpdateProduct(ProductInfo) returns (Response) {}

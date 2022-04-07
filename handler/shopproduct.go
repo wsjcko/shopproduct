@@ -9,19 +9,19 @@ import (
 	pb "github.com/wsjcko/shopproduct/protobuf/pb"
 )
 
-type Product struct {
-	ProductDataService service.IProductDataService
+type ShopProduct struct {
+	ProductService service.IProductService
 }
 
 // AddProduct 添加商品
-func (h *Product) AddProduct(ctx context.Context, request *pb.ProductInfo, response *pb.ResponseProduct) error {
+func (h *ShopProduct) AddProduct(ctx context.Context, request *pb.ProductInfo, response *pb.ResponseProduct) error {
 	productAdd := &model.Product{}
 	fmt.Println(request)
 	if err := common.SwapTo(request, productAdd); err != nil {
 		return err
 	}
 	fmt.Println(productAdd)
-	productID, err := h.ProductDataService.AddProduct(productAdd)
+	productID, err := h.ProductService.AddProduct(productAdd)
 	if err != nil {
 		return err
 	}
@@ -30,8 +30,8 @@ func (h *Product) AddProduct(ctx context.Context, request *pb.ProductInfo, respo
 }
 
 // FindProductByID 根据ID查找商品
-func (h *Product) FindProductByID(ctx context.Context, request *pb.RequestID, response *pb.ProductInfo) error {
-	productData, err := h.ProductDataService.FindProductByID(request.ProductId)
+func (h *ShopProduct) FindProductByID(ctx context.Context, request *pb.RequestID, response *pb.ProductInfo) error {
+	productData, err := h.ProductService.FindProductByID(request.ProductId)
 	if err != nil {
 		return err
 	}
@@ -42,12 +42,12 @@ func (h *Product) FindProductByID(ctx context.Context, request *pb.RequestID, re
 }
 
 // UpdateProduct 商品更新
-func (h *Product) UpdateProduct(ctx context.Context, request *pb.ProductInfo, response *pb.Response) error {
+func (h *ShopProduct) UpdateProduct(ctx context.Context, request *pb.ProductInfo, response *pb.Response) error {
 	productAdd := &model.Product{}
 	if err := common.SwapTo(request, productAdd); err != nil {
 		return err
 	}
-	err := h.ProductDataService.UpdateProduct(productAdd)
+	err := h.ProductService.UpdateProduct(productAdd)
 	if err != nil {
 		return err
 	}
@@ -56,8 +56,8 @@ func (h *Product) UpdateProduct(ctx context.Context, request *pb.ProductInfo, re
 }
 
 // DeleteProductByID 根据ID删除对应商品
-func (h *Product) DeleteProductByID(ctx context.Context, request *pb.RequestID, response *pb.Response) error {
-	if err := h.ProductDataService.DeleteProduct(request.ProductId); err != nil {
+func (h *ShopProduct) DeleteProductByID(ctx context.Context, request *pb.RequestID, response *pb.Response) error {
+	if err := h.ProductService.DeleteProduct(request.ProductId); err != nil {
 		return err
 	}
 	response.Msg = "删除成功"
@@ -65,8 +65,8 @@ func (h *Product) DeleteProductByID(ctx context.Context, request *pb.RequestID, 
 }
 
 // FindAllProduct 查找所有商品
-func (h *Product) FindAllProduct(ctx context.Context, request *pb.RequestAll, response *pb.AllProduct) error {
-	productAll, err := h.ProductDataService.FindAllProduct()
+func (h *ShopProduct) FindAllProduct(ctx context.Context, request *pb.RequestAll, response *pb.AllProduct) error {
+	productAll, err := h.ProductService.FindAllProduct()
 	if err != nil {
 		return err
 	}

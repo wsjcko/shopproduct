@@ -7,7 +7,7 @@ mkdir -p protobuf/{pb,pbserver}
 mkdir -p proto/{pb,pbserver}
 mkdir common
 
-go mod edit --module=github.com/wsjcko/shopcategory
+go mod edit --module=github.com/wsjcko/shopproduct
 go mod edit --go=1.17  
 
 gorm 有个根据创建表sql 生成model  : gormt

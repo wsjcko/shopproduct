@@ -27,15 +27,15 @@ var _ context.Context
 var _ client.Option
 var _ server.Option
 
-// Api Endpoints for Product service
+// Api Endpoints for ShopProduct service
 
-func NewProductEndpoints() []*api.Endpoint {
+func NewShopProductEndpoints() []*api.Endpoint {
 	return []*api.Endpoint{}
 }
 
-// Client API for Product service
+// Client API for ShopProduct service
 
-type ProductService interface {
+type ShopProductService interface {
 	AddProduct(ctx context.Context, in *ProductInfo, opts ...client.CallOption) (*ResponseProduct, error)
 	FindProductByID(ctx context.Context, in *RequestID, opts ...client.CallOption) (*ProductInfo, error)
 	UpdateProduct(ctx context.Context, in *ProductInfo, opts ...client.CallOption) (*Response, error)
@@ -43,20 +43,20 @@ type ProductService interface {
 	FindAllProduct(ctx context.Context, in *RequestAll, opts ...client.CallOption) (*AllProduct, error)
 }
 
-type productService struct {
+type shopProductService struct {
 	c    client.Client
 	name string
 }
 
-func NewProductService(name string, c client.Client) ProductService {
-	return &productService{
+func NewShopProductService(name string, c client.Client) ShopProductService {
+	return &shopProductService{
 		c:    c,
 		name: name,
 	}
 }
 
-func (c *productService) AddProduct(ctx context.Context, in *ProductInfo, opts ...client.CallOption) (*ResponseProduct, error) {
-	req := c.c.NewRequest(c.name, "Product.AddProduct", in)
+func (c *shopProductService) AddProduct(ctx context.Context, in *ProductInfo, opts ...client.CallOption) (*ResponseProduct, error) {
+	req := c.c.NewRequest(c.name, "ShopProduct.AddProduct", in)
 	out := new(ResponseProduct)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
@@ -65,8 +65,8 @@ func (c *productService) AddProduct(ctx context.Context, in *ProductInfo, opts .
 	return out, nil
 }
 
-func (c *productService) FindProductByID(ctx context.Context, in *RequestID, opts ...client.CallOption) (*ProductInfo, error) {
-	req := c.c.NewRequest(c.name, "Product.FindProductByID", in)
+func (c *shopProductService) FindProductByID(ctx context.Context, in *RequestID, opts ...client.CallOption) (*ProductInfo, error) {
+	req := c.c.NewRequest(c.name, "ShopProduct.FindProductByID", in)
 	out := new(ProductInfo)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
@@ -75,8 +75,8 @@ func (c *productService) FindProductByID(ctx context.Context, in *RequestID, opt
 	return out, nil
 }
 
-func (c *productService) UpdateProduct(ctx context.Context, in *ProductInfo, opts ...client.CallOption) (*Response, error) {
-	req := c.c.NewRequest(c.name, "Product.UpdateProduct", in)
+func (c *shopProductService) UpdateProduct(ctx context.Context, in *ProductInfo, opts ...client.CallOption) (*Response, error) {
+	req := c.c.NewRequest(c.name, "ShopProduct.UpdateProduct", in)
 	out := new(Response)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
@@ -85,8 +85,8 @@ func (c *productService) UpdateProduct(ctx context.Context, in *ProductInfo, opt
 	return out, nil
 }
 
-func (c *productService) DeleteProductByID(ctx context.Context, in *RequestID, opts ...client.CallOption) (*Response, error) {
-	req := c.c.NewRequest(c.name, "Product.DeleteProductByID", in)
+func (c *shopProductService) DeleteProductByID(ctx context.Context, in *RequestID, opts ...client.CallOption) (*Response, error) {
+	req := c.c.NewRequest(c.name, "ShopProduct.DeleteProductByID", in)
 	out := new(Response)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
@@ -95,8 +95,8 @@ func (c *productService) DeleteProductByID(ctx context.Context, in *RequestID, o
 	return out, nil
 }
 
-func (c *productService) FindAllProduct(ctx context.Context, in *RequestAll, opts ...client.CallOption) (*AllProduct, error) {
-	req := c.c.NewRequest(c.name, "Product.FindAllProduct", in)
+func (c *shopProductService) FindAllProduct(ctx context.Context, in *RequestAll, opts ...client.CallOption) (*AllProduct, error) {
+	req := c.c.NewRequest(c.name, "ShopProduct.FindAllProduct", in)
 	out := new(AllProduct)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
@@ -105,9 +105,9 @@ func (c *productService) FindAllProduct(ctx context.Context, in *RequestAll, opt
 	return out, nil
 }
 
-// Server API for Product service
+// Server API for ShopProduct service
 
-type ProductHandler interface {
+type ShopProductHandler interface {
 	AddProduct(context.Context, *ProductInfo, *ResponseProduct) error
 	FindProductByID(context.Context, *RequestID, *ProductInfo) error
 	UpdateProduct(context.Context, *ProductInfo, *Response) error
@@ -115,41 +115,41 @@ type ProductHandler interface {
 	FindAllProduct(context.Context, *RequestAll, *AllProduct) error
 }
 
-func RegisterProductHandler(s server.Server, hdlr ProductHandler, opts ...server.HandlerOption) error {
-	type product interface {
+func RegisterShopProductHandler(s server.Server, hdlr ShopProductHandler, opts ...server.HandlerOption) error {
+	type shopProduct interface {
 		AddProduct(ctx context.Context, in *ProductInfo, out *ResponseProduct) error
 		FindProductByID(ctx context.Context, in *RequestID, out *ProductInfo) error
 		UpdateProduct(ctx context.Context, in *ProductInfo, out *Response) error
 		DeleteProductByID(ctx context.Context, in *RequestID, out *Response) error
 		FindAllProduct(ctx context.Context, in *RequestAll, out *AllProduct) error
 	}
-	type Product struct {
-		product
+	type ShopProduct struct {
+		shopProduct
 	}
-	h := &productHandler{hdlr}
-	return s.Handle(s.NewHandler(&Product{h}, opts...))
+	h := &shopProductHandler{hdlr}
+	return s.Handle(s.NewHandler(&ShopProduct{h}, opts...))
 }
 
-type productHandler struct {
-	ProductHandler
+type shopProductHandler struct {
+	ShopProductHandler
 }
 
-func (h *productHandler) AddProduct(ctx context.Context, in *ProductInfo, out *ResponseProduct) error {
-	return h.ProductHandler.AddProduct(ctx, in, out)
+func (h *shopProductHandler) AddProduct(ctx context.Context, in *ProductInfo, out *ResponseProduct) error {
+	return h.ShopProductHandler.AddProduct(ctx, in, out)
 }
 
-func (h *productHandler) FindProductByID(ctx context.Context, in *RequestID, out *ProductInfo) error {
-	return h.ProductHandler.FindProductByID(ctx, in, out)
+func (h *shopProductHandler) FindProductByID(ctx context.Context, in *RequestID, out *ProductInfo) error {
+	return h.ShopProductHandler.FindProductByID(ctx, in, out)
 }
 
-func (h *productHandler) UpdateProduct(ctx context.Context, in *ProductInfo, out *Response) error {
-	return h.ProductHandler.UpdateProduct(ctx, in, out)
+func (h *shopProductHandler) UpdateProduct(ctx context.Context, in *ProductInfo, out *Response) error {
+	return h.ShopProductHandler.UpdateProduct(ctx, in, out)
 }
 
-func (h *productHandler) DeleteProductByID(ctx context.Context, in *RequestID, out *Response) error {
-	return h.ProductHandler.DeleteProductByID(ctx, in, out)
+func (h *shopProductHandler) DeleteProductByID(ctx context.Context, in *RequestID, out *Response) error {
+	return h.ShopProductHandler.DeleteProductByID(ctx, in, out)
 }
 
-func (h *productHandler) FindAllProduct(ctx context.Context, in *RequestAll, out *AllProduct) error {
-	return h.ProductHandler.FindAllProduct(ctx, in, out)
+func (h *shopProductHandler) FindAllProduct(ctx context.Context, in *RequestAll, out *AllProduct) error {
+	return h.ShopProductHandler.FindAllProduct(ctx, in, out)
 }
