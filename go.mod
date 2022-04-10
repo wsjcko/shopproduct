@@ -6,12 +6,14 @@ require (
 	github.com/HdrHistogram/hdrhistogram-go v1.1.2 // indirect
 	github.com/asim/go-micro/plugins/config/source/consul/v4 v4.0.0-20220404185419-6dedee5d8c2c
 	github.com/asim/go-micro/plugins/registry/consul/v4 v4.0.0-20220404185419-6dedee5d8c2c
+	github.com/asim/go-micro/plugins/wrapper/ratelimiter/uber/v4 v4.0.0-20220407104607-62c2981baf63
 	github.com/asim/go-micro/plugins/wrapper/trace/opentracing/v4 v4.0.0-20220404185419-6dedee5d8c2c
 	github.com/golang/protobuf v1.5.2
 	github.com/jinzhu/gorm v1.9.16
 	github.com/opentracing/opentracing-go v1.2.0
 	github.com/uber/jaeger-client-go v2.30.0+incompatible
 	github.com/uber/jaeger-lib v2.4.1+incompatible // indirect
+	github.com/urfave/cli/v2 v2.3.0
 	go-micro.dev/v4 v4.2.1
 	google.golang.org/protobuf v1.26.0
 )

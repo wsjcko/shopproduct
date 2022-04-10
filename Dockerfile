@@ -10,5 +10,5 @@ RUN make proto tidy build
 
 FROM scratch
 COPY --from=builder /data/www/shop/shopproduct /shopproduct
-ENTRYPOINT ["/shopproduct"]
-CMD []
+ENTRYPOINT ["/shopproduct","-ip","127.0.0.1"]
+CMD ["-h"]
